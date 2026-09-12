@@ -22,6 +22,7 @@ _GLOBAL_FLAGS = frozenset(
 
 def _librarybridge_matcher(
     *subcommands: str,
+    required_flags: frozenset[str] = frozenset(),
     options_with_values: frozenset[str] = frozenset(),
 ) -> AnyMatcher:
     return AnyMatcher(
@@ -29,6 +30,7 @@ def _librarybridge_matcher(
             executable_matcher(
                 "librarybridge",
                 *subcommands,
+                required_flags=required_flags,
                 allow_leading_options=True,
                 leading_options_with_values=_GLOBAL_OPTIONS_WITH_VALUES,
                 global_options_with_values=_GLOBAL_OPTIONS_WITH_VALUES,
@@ -44,6 +46,23 @@ _FIX = _librarybridge_matcher("fix", options_with_values=frozenset({"--expect"})
 _UNDO = _librarybridge_matcher("undo")
 _BACKUP = _librarybridge_matcher("backup")
 _LUTRIS_IMPORT = _librarybridge_matcher("lutris", "import", options_with_values=frozenset({"--plan"}))
+_EVIDENCE_RECORD = _librarybridge_matcher(
+    "evidence",
+    required_flags=frozenset({"--record"}),
+    options_with_values=frozenset({"--record"}),
+)
+_LUTRIS_PLAN = _librarybridge_matcher(
+    "lutris",
+    "plan",
+    required_flags=frozenset({"--output"}),
+    options_with_values=frozenset({"--candidate", "--output", "--root"}),
+)
+_LUTRIS_FORGET = _librarybridge_matcher(
+    "lutris",
+    "forget",
+    required_flags=frozenset({"--entry"}),
+    options_with_values=frozenset({"--entry"}),
+)
 
 
 def _safe_variants(matcher: AnyMatcher, name: str) -> tuple[CommandSafeVariant, ...]:
@@ -126,6 +145,45 @@ LIBRARYBRIDGE_COMMAND_RULES = (
         matcher=_LUTRIS_IMPORT,
         safe_variants=_safe_variants(_LUTRIS_IMPORT, "Lutris import"),
     ),
+    CommandSafetyRule(
+        rule_id="command.librarybridge.evidence-record",
+        title="LibraryBridge evidence recording",
+        description=(
+            "Identifies LibraryBridge evidence recording, which writes a user's launch or save result for a library."
+        ),
+        severity="medium",
+        risk_classes=("destructive_shell",),
+        action_classes=("LibraryBridge evidence recording command",),
+        safer_alternatives=("Run `librarybridge evidence <id>` without `--record` to inspect the current evidence.",),
+        matcher=_EVIDENCE_RECORD,
+    ),
+    CommandSafetyRule(
+        rule_id="command.librarybridge.lutris-plan",
+        title="LibraryBridge Lutris plan creation",
+        description=(
+            "Identifies LibraryBridge Lutris plan creation, which writes a "
+            "reviewable import plan to the requested output path."
+        ),
+        severity="medium",
+        risk_classes=("destructive_shell",),
+        action_classes=("LibraryBridge Lutris plan command",),
+        safer_alternatives=("Run `librarybridge lutris plan` with `--dry-run` and review the proposed games first.",),
+        matcher=_LUTRIS_PLAN,
+        safe_variants=_safe_variants(_LUTRIS_PLAN, "Lutris plan"),
+    ),
+    CommandSafetyRule(
+        rule_id="command.librarybridge.lutris-forget",
+        title="LibraryBridge Lutris import record removal",
+        description=(
+            "Identifies LibraryBridge Lutris forget operations, which remove the tool's record of an imported game."
+        ),
+        severity="high",
+        risk_classes=("destructive_shell",),
+        action_classes=("LibraryBridge Lutris forget command",),
+        safer_alternatives=("Run `librarybridge lutris forget` with `--dry-run` before removing the import record.",),
+        matcher=_LUTRIS_FORGET,
+        safe_variants=_safe_variants(_LUTRIS_FORGET, "Lutris forget"),
+    ),
 )
 
 
@@ -142,6 +200,9 @@ LIBRARYBRIDGE_COMMAND_EXTENSION_SPECS = (
             "LibraryBridge undo command",
             "LibraryBridge backup command",
             "LibraryBridge Lutris import command",
+            "LibraryBridge evidence recording command",
+            "LibraryBridge Lutris plan command",
+            "LibraryBridge Lutris forget command",
         ),
         risk_classes=("destructive_shell",),
         safer_alternatives=(
