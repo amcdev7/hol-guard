@@ -134,6 +134,39 @@ def test_source_identity_mismatch_is_rejected(tmp_path: Path) -> None:
         exporter.export_directory(root)
 
 
+def test_pending_command_descriptor_waits_for_native_catalog(tmp_path: Path) -> None:
+    root = copy_sources(tmp_path)
+    original = root / "contributions/extensions/command.blitcp.json"
+    descriptor = json.loads(original.read_text())
+    descriptor["id"] = "command.pending-test"
+    descriptor["nativeSource"]["path"] = "contributions/command-sources/command.pending-test.json"
+    (original.parent / "command.pending-test.json").write_text(json.dumps(descriptor))
+    source = {"schema": "guard.command-extension-source.v1", "extension": {"extension_id": "command.pending-test"}}
+    (root / descriptor["nativeSource"]["path"]).write_text(json.dumps(source))
+
+    for payload in (exporter.export_directory(root), exporter.export_directory_v2(root)):
+        assert "command.pending-test" not in {entry["id"] for entry in payload["entries"]}
+        assert {entry["runtimeExtensionId"] for entry in payload["entries"]} == {
+            extension.extension_id for extension in BUILT_IN_COMMAND_EXTENSION_REGISTRY.extensions
+        }
+
+
+@pytest.mark.parametrize("source_id", [None, "command.other"])
+def test_pending_command_descriptor_requires_matching_source(tmp_path: Path, source_id: str | None) -> None:
+    root = copy_sources(tmp_path)
+    original = root / "contributions/extensions/command.blitcp.json"
+    descriptor = json.loads(original.read_text())
+    descriptor["id"] = "command.pending-test"
+    descriptor["nativeSource"]["path"] = "contributions/command-sources/command.pending-test.json"
+    (original.parent / "command.pending-test.json").write_text(json.dumps(descriptor))
+    if source_id is not None:
+        source = {"schema": "guard.command-extension-source.v1", "extension": {"extension_id": source_id}}
+        (root / descriptor["nativeSource"]["path"]).write_text(json.dumps(source))
+
+    with pytest.raises(ValueError, match=r"missing its command source|identity does not match"):
+        exporter.export_directory(root)
+
+
 def test_public_directory_matches_cross_repository_contract() -> None:
     from jsonschema import Draft202012Validator
 

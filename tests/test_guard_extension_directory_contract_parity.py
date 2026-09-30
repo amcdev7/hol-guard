@@ -107,7 +107,7 @@ def test_exporter_never_infers_claim_authority_when_ids_are_omitted(tmp_path: Pa
     assert specification and specification.loader
     exporter = importlib.util.module_from_spec(specification)
     specification.loader.exec_module(exporter)
-    for directory in ("extensions", "mcp-servers"):
+    for directory in ("extensions", "mcp-servers", "command-sources"):
         shutil.copytree(REPOSITORY / "contributions" / directory, tmp_path / "contributions" / directory)
     listings = tmp_path / "contributions/extension-listings"
     listings.mkdir()

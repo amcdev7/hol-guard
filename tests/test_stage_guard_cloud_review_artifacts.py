@@ -24,6 +24,9 @@ def _write_artifacts(root: Path) -> None:
 
 def test_librarybridge_contribution_is_mapped_to_frozen_package_data() -> None:
     assert MODULE._ARTIFACTS[_LIBRARYBRIDGE_SOURCE] == _LIBRARYBRIDGE_STAGED
+    assert MODULE._ARTIFACTS["contracts/extensions/contribution.v2.schema.json"] == (
+        "extensions/contribution.v2.schema.json"
+    )
     pyproject = (Path(__file__).resolve().parents[1] / "pyproject.toml").read_text(encoding="utf-8")
     assert (
         '"contributions/extensions/command.librarybridge.json" = '
