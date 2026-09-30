@@ -399,6 +399,7 @@ def test_generated_artifacts_match_non_self_referential_contract_digests(tmp_pat
     probe = "\n".join(
         (
             "from pathlib import Path",
+            "import json",
             "import sys",
             "unpacked, repository = (Path(value).resolve() for value in sys.argv[1:])",
             "checkout_import_roots = {repository, repository / 'src'}",
@@ -407,7 +408,7 @@ def test_generated_artifacts_match_non_self_referential_contract_digests(tmp_pat
             "sys.path[:] = [str(unpacked), *(entry for entry in sys.path if not is_checkout_import_path(entry))]",
             "from codex_plugin_scanner.guard.contracts import guard_cloud_review as contract",
             "from codex_plugin_scanner.guard.runtime.extension_contribution import contribution_catalog_overlay",
-            "from codex_plugin_scanner.guard.runtime.extension_trust import catalog_trust_fields",
+            "from codex_plugin_scanner.guard.runtime.extension_contribution import validate_contribution_file",
             (
                 "resources = (contract.CONTRACT_PATH, contract.COMMAND_RESULT_CONTRACT_PATH, "
                 "contract.FIXTURES_PATH, contract.PUBLIC_DOCUMENTATION_PATH)"
@@ -429,9 +430,20 @@ def test_generated_artifacts_match_non_self_referential_contract_digests(tmp_pat
                 "'background': '#2563EB'}}"
             ),
             "assert overlay == expected_overlay",
-            "expected_catalog = {'enabled': False, 'trust_class': 'external', 'activation': 'opt-in'}",
-            "expected_catalog.update(overlay)",
-            "assert catalog_trust_fields('command.librarybridge', required=False) == expected_catalog",
+            (
+                "descriptor_path = unpacked / "
+                "'codex_plugin_scanner/guard/contracts/data/extensions/contributions/command.librarybridge.json'"
+            ),
+            "descriptor = validate_contribution_file(descriptor_path)",
+            (
+                "expected_descriptor = "
+                "json.loads((repository / 'contributions/extensions/command.librarybridge.json').read_text())"
+            ),
+            "assert descriptor == expected_descriptor",
+            "assert descriptor['schemaVersion'] == 'guard.extension-contribution.v2'",
+            "assert descriptor['generated'] is True",
+            "assert descriptor['trustClass'] == 'external' and descriptor['activation'] == 'opt-in'",
+            ("assert descriptor['nativeSource']['path'] == 'contributions/command-sources/command.librarybridge.json'"),
         )
     )
     _ = subprocess.run(
