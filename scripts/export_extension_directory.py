@@ -104,26 +104,7 @@ def _snapshot(
     dict[str, bytes],
 ]:
     sources = _sources(root)
-    listings = _listings(root, sources)
-    command_sources = _command_source_bytes(root)
-    catalog_ids = {extension.extension_id for extension in BUILT_IN_COMMAND_EXTENSION_REGISTRY.extensions}
-    pending = {
-        extension_id
-        for extension_id in sources
-        if extension_id.startswith("command.") and extension_id not in catalog_ids
-    }
-    for extension_id in pending:
-        evidence = _authoring_source(extension_id, sources[extension_id][1], command_sources)
-        source = object_value(parse_json(command_sources[str(evidence["path"])]))
-        extension = object_value(source.get("extension"))
-        if source.get("schema") != "guard.command-extension-source.v1" or extension.get("extension_id") != extension_id:
-            raise ValueError("Pending contribution identity does not match its command source")
-    # Pending inputs are validated here, but only compiled native entries are public.
-    return (
-        {identity: value for identity, value in sources.items() if identity not in pending},
-        {identity: value for identity, value in listings.items() if identity not in pending},
-        command_sources,
-    )
+    return sources, _listings(root, sources), _command_source_bytes(root)
 
 
 def _authoring_source(

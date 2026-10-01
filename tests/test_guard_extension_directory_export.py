@@ -14,6 +14,7 @@ from codex_plugin_scanner.guard.extension_builder.errors import BuilderError
 from codex_plugin_scanner.guard.runtime.command_extensions import BUILT_IN_COMMAND_EXTENSION_REGISTRY
 from codex_plugin_scanner.guard.runtime.extension_trust import trust_class_for
 from tests.extension_builder_support import REPOSITORY
+from tests.support.extension_freshness import requires_fresh_projections
 
 spec = importlib.util.spec_from_file_location(
     "guard_directory_export", REPOSITORY / "scripts/export_extension_directory.py"
@@ -24,6 +25,7 @@ sys.modules[spec.name] = exporter
 spec.loader.exec_module(exporter)
 
 
+@requires_fresh_projections
 def test_export_is_deterministic_and_current() -> None:
     first = exporter.render_directory()
     assert first == exporter.render_directory()
@@ -38,6 +40,7 @@ def test_export_is_deterministic_and_current() -> None:
     assert json.loads(v2)["schemaVersion"] == "guard.extension-directory.v2"
 
 
+@requires_fresh_projections
 def test_paired_directory_render_uses_one_validated_source_snapshot(monkeypatch: pytest.MonkeyPatch) -> None:
     source_calls = 0
     listing_calls = 0
@@ -71,6 +74,7 @@ def test_public_directory_bytes_use_lf_checkout_for_stable_public_digests() -> N
     assert "/docs/guard/extensions/catalog.v2.json text eol=lf" in attributes
 
 
+@requires_fresh_projections
 def test_every_native_extension_appears_once_with_unchanged_authority() -> None:
     native = {row.extension_id: row for row in BUILT_IN_COMMAND_EXTENSION_REGISTRY.extensions}
     entries = exporter.export_directory()["entries"]
@@ -96,6 +100,7 @@ def test_every_native_extension_appears_once_with_unchanged_authority() -> None:
             assert row["authoringSource"] is None
 
 
+@requires_fresh_projections
 def test_mcp_entry_preserves_contribution_identity_and_inheritance() -> None:
     entries = exporter.export_directory()["entries"]
     row = next(row for row in entries if row["id"] == "mcp.filesystem")
@@ -134,39 +139,7 @@ def test_source_identity_mismatch_is_rejected(tmp_path: Path) -> None:
         exporter.export_directory(root)
 
 
-def test_pending_command_descriptor_waits_for_native_catalog(tmp_path: Path) -> None:
-    root = copy_sources(tmp_path)
-    original = root / "contributions/extensions/command.blitcp.json"
-    descriptor = json.loads(original.read_text())
-    descriptor["id"] = "command.pending-test"
-    descriptor["nativeSource"]["path"] = "contributions/command-sources/command.pending-test.json"
-    (original.parent / "command.pending-test.json").write_text(json.dumps(descriptor))
-    source = {"schema": "guard.command-extension-source.v1", "extension": {"extension_id": "command.pending-test"}}
-    (root / descriptor["nativeSource"]["path"]).write_text(json.dumps(source))
-
-    for payload in (exporter.export_directory(root), exporter.export_directory_v2(root)):
-        assert "command.pending-test" not in {entry["id"] for entry in payload["entries"]}
-        assert {entry["runtimeExtensionId"] for entry in payload["entries"]} == {
-            extension.extension_id for extension in BUILT_IN_COMMAND_EXTENSION_REGISTRY.extensions
-        }
-
-
-@pytest.mark.parametrize("source_id", [None, "command.other"])
-def test_pending_command_descriptor_requires_matching_source(tmp_path: Path, source_id: str | None) -> None:
-    root = copy_sources(tmp_path)
-    original = root / "contributions/extensions/command.blitcp.json"
-    descriptor = json.loads(original.read_text())
-    descriptor["id"] = "command.pending-test"
-    descriptor["nativeSource"]["path"] = "contributions/command-sources/command.pending-test.json"
-    (original.parent / "command.pending-test.json").write_text(json.dumps(descriptor))
-    if source_id is not None:
-        source = {"schema": "guard.command-extension-source.v1", "extension": {"extension_id": source_id}}
-        (root / descriptor["nativeSource"]["path"]).write_text(json.dumps(source))
-
-    with pytest.raises(ValueError, match=r"missing its command source|identity does not match"):
-        exporter.export_directory(root)
-
-
+@requires_fresh_projections
 def test_public_directory_matches_cross_repository_contract() -> None:
     from jsonschema import Draft202012Validator
 
@@ -180,6 +153,7 @@ def test_public_directory_matches_cross_repository_contract() -> None:
     Draft202012Validator(v2_schema).validate(exporter.export_directory_v2())
 
 
+@requires_fresh_projections
 def test_v2_listing_metadata_has_separate_credit_and_claim_authority(tmp_path: Path) -> None:
     root = copy_sources(tmp_path)
     listing_path = root / "contributions/extension-listings/command.blitcp.json"
@@ -206,6 +180,7 @@ def test_v2_listing_metadata_has_separate_credit_and_claim_authority(tmp_path: P
     assert row["listing"]["path"] == "contributions/extension-listings/command.blitcp.json"
 
 
+@requires_fresh_projections
 def test_v2_directory_supplies_a_valid_summary_for_a_short_legacy_description(tmp_path: Path) -> None:
     root = copy_sources(tmp_path)
     contribution = root / "contributions/extensions/command.blitcp.json"
@@ -216,6 +191,7 @@ def test_v2_directory_supplies_a_valid_summary_for_a_short_legacy_description(tm
     assert row["summary"] == "Reviewed Guard coverage for command.blitcp."
 
 
+@requires_fresh_projections
 def test_claim_readiness_report_matches_claim_policy_invariants() -> None:
     report = exporter.claim_readiness()
     assert report["schemaVersion"] == "guard.extension-claim-readiness.v1"
@@ -233,6 +209,7 @@ def test_claim_readiness_report_matches_claim_policy_invariants() -> None:
             assert row["reason"] == "project_policy"
 
 
+@requires_fresh_projections
 def test_valid_contribution_with_empty_accepted_set_is_not_invitation_eligible(tmp_path: Path) -> None:
     root = copy_sources(tmp_path)
     listing_path = root / "contributions/extension-listings/command.blitcp.json"

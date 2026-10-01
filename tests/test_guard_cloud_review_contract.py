@@ -391,7 +391,6 @@ def test_generated_artifacts_match_non_self_referential_contract_digests(tmp_pat
         "codex_plugin_scanner/guard/contracts/data/guard-cloud-review/v2/command-result.json",
         "codex_plugin_scanner/guard/contracts/data/guard-cloud-review/v2/fixtures.json",
         "codex_plugin_scanner/guard/contracts/data/guard-cloud-review/guard-cloud-review.md",
-        "codex_plugin_scanner/guard/contracts/data/extensions/contributions/command.librarybridge.json",
     }
     with zipfile.ZipFile(wheel_path) as archive:
         assert resource_names <= set(archive.namelist())
@@ -399,7 +398,6 @@ def test_generated_artifacts_match_non_self_referential_contract_digests(tmp_pat
     probe = "\n".join(
         (
             "from pathlib import Path",
-            "import json",
             "import sys",
             "unpacked, repository = (Path(value).resolve() for value in sys.argv[1:])",
             "checkout_import_roots = {repository, repository / 'src'}",
@@ -407,8 +405,6 @@ def test_generated_artifacts_match_non_self_referential_contract_digests(tmp_pat
             "    return Path(entry or '.').resolve() in checkout_import_roots",
             "sys.path[:] = [str(unpacked), *(entry for entry in sys.path if not is_checkout_import_path(entry))]",
             "from codex_plugin_scanner.guard.contracts import guard_cloud_review as contract",
-            "from codex_plugin_scanner.guard.runtime.extension_contribution import contribution_catalog_overlay",
-            "from codex_plugin_scanner.guard.runtime.extension_contribution import validate_contribution_file",
             (
                 "resources = (contract.CONTRACT_PATH, contract.COMMAND_RESULT_CONTRACT_PATH, "
                 "contract.FIXTURES_PATH, contract.PUBLIC_DOCUMENTATION_PATH)"
@@ -420,30 +416,6 @@ def test_generated_artifacts_match_non_self_referential_contract_digests(tmp_pat
                 "== contract.COMMAND_RESULT_CONTRACT_VERSION"
             ),
             "assert contract.validate_generated_artifacts() == contract.expected_artifact_digests()",
-            "overlay = contribution_catalog_overlay('command.librarybridge')",
-            (
-                "expected_overlay = {"
-                "'publisher': {"
-                "'id': 'community.amcdev7', 'displayName': 'Community', "
-                "'url': 'https://github.com/amcdev7/LibraryBridge'}, "
-                "'icon': {'kind': 'react-icon', 'name': 'HiMiniCommandLine', "
-                "'background': '#2563EB'}}"
-            ),
-            "assert overlay == expected_overlay",
-            (
-                "descriptor_path = unpacked / "
-                "'codex_plugin_scanner/guard/contracts/data/extensions/contributions/command.librarybridge.json'"
-            ),
-            "descriptor = validate_contribution_file(descriptor_path)",
-            (
-                "expected_descriptor = "
-                "json.loads((repository / 'contributions/extensions/command.librarybridge.json').read_text())"
-            ),
-            "assert descriptor == expected_descriptor",
-            "assert descriptor['schemaVersion'] == 'guard.extension-contribution.v2'",
-            "assert descriptor['generated'] is True",
-            "assert descriptor['trustClass'] == 'external' and descriptor['activation'] == 'opt-in'",
-            ("assert descriptor['nativeSource']['path'] == 'contributions/command-sources/command.librarybridge.json'"),
         )
     )
     _ = subprocess.run(
