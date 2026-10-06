@@ -3475,7 +3475,7 @@
                       ],
                       "options_with_values": [],
                       "required_flags": [
-                        "-v"
+                        "-V"
                       ],
                       "required_flags_in_all_arguments": false,
                       "required_option_values": [],
@@ -3585,7 +3585,7 @@
                       ],
                       "options_with_values": [],
                       "required_flags": [
-                        "-v"
+                        "-V"
                       ],
                       "required_flags_in_all_arguments": false,
                       "required_option_values": [],
@@ -3777,7 +3777,7 @@
                           "options_with_values": [],
                           "required_flags": [
                             "--help",
-                            "-v"
+                            "-V"
                           ],
                           "required_flags_in_all_arguments": false,
                           "required_option_values": [],
@@ -3889,7 +3889,7 @@
                           "options_with_values": [],
                           "required_flags": [
                             "--help",
-                            "-v"
+                            "-V"
                           ],
                           "required_flags_in_all_arguments": false,
                           "required_option_values": [],
@@ -10302,7 +10302,7 @@
                     "--yes",
                     "-h",
                     "-n",
-                    "-v",
+                    "-V",
                     "-y"
                   ],
                   "interspersed_options_with_values": [
@@ -10356,7 +10356,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -10407,7 +10407,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -10458,7 +10458,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -10509,7 +10509,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -10560,7 +10560,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -10611,7 +10611,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -10629,7 +10629,7 @@
                         "--expect"
                       ],
                       "required_flags": [
-                        "-v"
+                        "-V"
                       ],
                       "required_flags_in_all_arguments": true,
                       "required_option_values": [],
@@ -10675,7 +10675,7 @@
                     "--yes",
                     "-h",
                     "-n",
-                    "-v",
+                    "-V",
                     "-y"
                   ],
                   "interspersed_options_with_values": [
@@ -10725,7 +10725,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -10772,7 +10772,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -10819,7 +10819,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -10866,7 +10866,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -10913,7 +10913,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -10960,7 +10960,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -10974,7 +10974,7 @@
                       ],
                       "options_with_values": [],
                       "required_flags": [
-                        "-v"
+                        "-V"
                       ],
                       "required_flags_in_all_arguments": true,
                       "required_option_values": [],
@@ -11020,7 +11020,7 @@
                     "--yes",
                     "-h",
                     "-n",
-                    "-v",
+                    "-V",
                     "-y"
                   ],
                   "interspersed_options_with_values": [
@@ -11070,7 +11070,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11117,7 +11117,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11164,7 +11164,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11211,7 +11211,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11258,7 +11258,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11305,7 +11305,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11319,7 +11319,7 @@
                       ],
                       "options_with_values": [],
                       "required_flags": [
-                        "-v"
+                        "-V"
                       ],
                       "required_flags_in_all_arguments": true,
                       "required_option_values": [],
@@ -11365,7 +11365,7 @@
                     "--yes",
                     "-h",
                     "-n",
-                    "-v",
+                    "-V",
                     "-y"
                   ],
                   "interspersed_options_with_values": [
@@ -11420,7 +11420,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11472,7 +11472,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11524,7 +11524,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11576,7 +11576,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11628,7 +11628,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11680,7 +11680,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11698,7 +11698,7 @@
                         "--plan"
                       ],
                       "required_flags": [
-                        "-v"
+                        "-V"
                       ],
                       "required_flags_in_all_arguments": true,
                       "required_option_values": [],
@@ -11745,7 +11745,7 @@
                     "--yes",
                     "-h",
                     "-n",
-                    "-v",
+                    "-V",
                     "-y"
                   ],
                   "interspersed_options_with_values": [
@@ -11801,7 +11801,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11852,7 +11852,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11903,7 +11903,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11954,7 +11954,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -11972,7 +11972,7 @@
                         "--record"
                       ],
                       "required_flags": [
-                        "-v"
+                        "-V"
                       ],
                       "required_flags_in_all_arguments": true,
                       "required_option_values": [],
@@ -12018,7 +12018,7 @@
                     "--yes",
                     "-h",
                     "-n",
-                    "-v",
+                    "-V",
                     "-y"
                   ],
                   "interspersed_options_with_values": [
@@ -12081,7 +12081,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -12140,7 +12140,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -12199,7 +12199,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -12257,7 +12257,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -12315,7 +12315,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -12373,7 +12373,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -12397,7 +12397,7 @@
                         "--root"
                       ],
                       "required_flags": [
-                        "-v"
+                        "-V"
                       ],
                       "required_flags_in_all_arguments": true,
                       "required_option_values": [],
@@ -12444,7 +12444,7 @@
                     "--yes",
                     "-h",
                     "-n",
-                    "-v",
+                    "-V",
                     "-y"
                   ],
                   "interspersed_options_with_values": [
@@ -12501,7 +12501,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -12554,7 +12554,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -12607,7 +12607,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -12659,7 +12659,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -12711,7 +12711,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -12763,7 +12763,7 @@
                         "--yes",
                         "-h",
                         "-n",
-                        "-v",
+                        "-V",
                         "-y"
                       ],
                       "interspersed_options_with_values": [
@@ -12781,7 +12781,7 @@
                         "--entry"
                       ],
                       "required_flags": [
-                        "-v"
+                        "-V"
                       ],
                       "required_flags_in_all_arguments": true,
                       "required_option_values": [],
