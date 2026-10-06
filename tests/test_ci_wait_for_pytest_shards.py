@@ -106,9 +106,9 @@ def test_default_wait_covers_existing_producer_limits(monkeypatch: pytest.Monkey
 
 def test_default_wait_accepts_healthy_shards_after_full_planning_and_execution_limits() -> None:
     running = [_job(index, status="in_progress", conclusion=None) for index in range(barrier.SHARD_COUNT)]
-    # Advance only the injected clock: five minutes planning, five minutes
+    # Advance only the injected clock: five minutes planning, ten minutes
     # execution, and one polling interval for the complete success to appear.
-    _, logs = _run([[]] * 60 + [running] * 61 + [_jobs()])
+    _, logs = _run([[]] * 60 + [running] * 121 + [_jobs()])
     assert logs[-1] == f"All {barrier.SHARD_COUNT} Python coverage shards succeeded in run {_RUN_ID}, attempt 2"
 
 
@@ -419,7 +419,7 @@ def test_sonar_accepts_only_complete_coverage_from_verified_same_run_executions(
     jobs = workflow["jobs"]
     assert barrier.SHARD_COUNT == 128
     assert jobs["coverage"]["name"] == "coverage (3.12, ${{ matrix.shard-index }})"
-    assert jobs["coverage"]["strategy"]["matrix"]["shard-index"] == list(range(barrier.SHARD_COUNT))
+    assert jobs["coverage"]["strategy"]["matrix"]["shard-index"] == "${{ fromJSON(needs.coverage-plan.outputs.shard-indices) }}"
     producer = next(
         step for step in jobs["coverage"]["steps"] if step.get("name") == "Upload pytest coverage data artifact"
     )
