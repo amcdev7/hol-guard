@@ -90,6 +90,7 @@
       "command.genclave",
       "command.gitsync",
       "command.google-workspace.gog",
+      "command.librarybridge",
       "command.mcp-contribos",
       "command.mcp-filesystem",
       "command.mcp-instapods",
